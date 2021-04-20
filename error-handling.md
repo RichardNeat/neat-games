@@ -37,7 +37,7 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ## Available Routes
 
-### GET `/api/topics`
+### GET `/api/categories`
 
 -
 
@@ -45,32 +45,32 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 -
 
-### GET `/api/articles/:article_id`
+### GET `/api/reviews/:review_id`
 
-- Bad `article_id` (e.g. `/dog`)
-- Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)
+- Bad `review_id` (e.g. `/dog`)
+- Well formed `review_id` that doesn't exist in the database (e.g. `/999999`)
 
-### PATCH `/api/articles/:article_id`
+### PATCH `/api/reviews/:review_id`
 
 - No `inc_votes` on request body
 - Invalid `inc_votes` (e.g. `{ inc_votes : "cat" }`)
 - Some other property on request body (e.g. `{ inc_votes : 1, name: 'Mitch' }`)
 
-### POST `/api/articles/:article_id/comments`
+### POST `/api/reviews/:review_id/comments`
 
 -
 
-### GET `/api/articles/:article_id/comments`
+### GET `/api/reviews/:review_id/comments`
 
 -
 
-### GET `/api/articles`
+### GET `/api/reviews`
 
 - Bad queries:
   - `sort_by` a column that doesn't exist
   - `order` !== "asc" / "desc"
-  - `author` / `topic` that is not in the database
-  - `author` / `topic` that exists but does not have any articles associated with it
+  - `category` that is not in the database
+  - `category` that exists but does not have any reviews associated with it
 
 ### PATCH `/api/comments/:comment_id`
 
