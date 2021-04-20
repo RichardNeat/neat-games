@@ -1,7 +1,7 @@
 {
-  "name": "be-nc-news",
+  "name": "be-nc-games",
   "version": "1.0.0",
-  "description": "bc-nc-news",
+  "description": "bc-nc-games",
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/northcoders/be-nc-news.git"
+    "url": "git+https://github.com/northcoders/be-nc-games.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/northcoders/be-nc-news/issues"
+    "url": "https://github.com/northcoders/be-nc-games/issues"
   },
-  "homepage": "https://github.com/northcoders/be-nc-news#readme",
+  "homepage": "https://github.com/northcoders/be-nc-games#readme",
   "dependencies": {},
   "devDependencies": {}
 }

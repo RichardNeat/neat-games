@@ -1,4 +1,4 @@
-# Northcoders News API
+# Northcoders House of Games API
 
 ## Background
 
@@ -18,8 +18,8 @@ Your second task is to make accessing both sets of data around your project easi
 
 The job of `index.js` in each the data folders is to export out all the data from that folder, currently stored in separate files. This is so that, when you need access to the data elsewhere, you can write one convenient require statement - to the index file, rather than having to require each file individually. Think of it like a index of a book - a place to refer to! Make sure the index file exports an object with values of the data from that folder with the keys:
 
-- `topicData`
-- `articleData`
+- `categoryData`
+- `reviewData`
 - `userData`
 - `commentData`
 
@@ -31,12 +31,12 @@ In order to both create the tables and seed your data, you will need to create a
 
 ### Creating Tables
 
-You should have separate tables for `topics`, `articles`, `users` and `comments`. Make sure to consider the order in which you create your tables. You should think about whether you require any constraints on your table columns (e.g. 'NOT NULL')
+You should have separate tables for `categories`, `reviews`, `users` and `comments`. Make sure to consider the order in which you create your tables. You should think about whether you require any constraints on your table columns (e.g. 'NOT NULL')
 
-Each topic should have:
+Each category should have:
 
 - `slug` field which is a unique string that acts as the table's primary key
-- `description` field which is a string giving a brief description of a given topic
+- `description` field which is a string giving a brief description of a given category
 
 Each user should have:
 
@@ -44,21 +44,23 @@ Each user should have:
 - `avatar_url`
 - `name`
 
-Each article should have:
+Each review should have:
 
-- `article_id` which is the primary key
+- `review_id` which is the primary key
 - `title`
-- `body`
+- `review_body`
+- `designer`
+- `review_url` defaults to **XYZ** <---- RETURN TO
 - `votes` defaults to 0
-- `topic` field which references the slug in the topics table
-- `author` field that references a user's primary key (username)
+- `category` field which references the slug in the categories table
+- `owner` field that references a user's primary key (username)
 - `created_at` defaults to the current timestamp
 
 Each comment should have:
 
 - `comment_id` which is the primary key
 - `author` field that references a user's primary key (username)
-- `article_id` field that references an article's primary key
+- `review_id` field that references an review's primary key
 - `votes` defaults to 0
 - `created_at` defaults to the current timestamp
 - `body`
@@ -92,13 +94,13 @@ _Here is a summary of all the endpoints. More detail about each endpoint is furt
 **Essential endpoints**
 
 ```txt
-- GET /api/topics
+- GET /api/categories
   > Time to go solo!
-- GET /api/articles/:article_id
-- PATCH /api/articles/:article_id
-- GET /api/articles
-- GET /api/articles/:article_id/comments
-- POST /api/articles/:article_id/comments
+- GET /api/reviews/:review_id
+- PATCH /api/reviews/:review_id
+- GET /api/reviews
+- GET /api/reviews/:review_id/comments
+- POST /api/reviews/:review_id/comments
 ```
 
 > Hosting and README time!
@@ -106,6 +108,7 @@ _Here is a summary of all the endpoints. More detail about each endpoint is furt
 **Next endpoints to work through**
 
 ```txt
+- GET /api
 - DELETE /api/comments/:comment_id
 - GET /api/users
 - GET /api/users/:username
@@ -118,18 +121,18 @@ All of your endpoints should send the responses specified below in an **object**
 
 ```json
 {
-  "topics": [
+  "categories": [
     {
-      "description": "Code is love, code is life",
-      "slug": "coding"
+      "description": "Abstact games that involve little luck",
+      "slug": "Euro games"
     },
     {
-      "description": "FOOTIE!",
-      "slug": "football"
+      "description": "Players attempt to uncover each other's hidden role",
+      "slug": "Social deduction"
     },
     {
-      "description": "Hey good looking, what you got cooking?",
-      "slug": "cooking"
+      "description": "Games involving physical skill",
+      "slug": "Dexterity"
     }
   ]
 }
@@ -139,11 +142,11 @@ All of your endpoints should send the responses specified below in an **object**
 
 ### Essential Routes
 
-#### **GET /api/topics**
+#### **GET /api/categories**
 
 Responds with:
 
-- an array of topic objects, each of which should have the following properties:
+- an array of category objects, each of which should have the following properties:
   - `slug`
   - `description`
 
@@ -151,24 +154,26 @@ Responds with:
 
 **Please now bid farewell to your pair and continue on this sprint working solo. Ensure that you fork your partner's repo so you don't run into merge conflicts.**
 
-#### **GET /api/articles/:article_id**
+#### **GET /api/reviews/:review_id**
 
 Responds with:
 
-- an article object, which should have the following properties:
+- a review object, which should have the following properties:
 
-  - `author` which is the `username` from the users table
+  - `owner` which is the `username` from the users table
   - `title`
-  - `article_id`
-  - `body`
-  - `topic`
+  - `review_id`
+  - `review_body`
+  - `designer`
+  - `review_url`
+  - `category`
   - `created_at`
   - `votes`
-  - `comment_count` which is the total count of all the comments with this article_id - you should make use of queries to the database in order to achieve this
+  - `comment_count` which is the total count of all the comments with this review_id - you should make use of queries to the database in order to achieve this
 
 ---
 
-#### **PATCH /api/articles/:article_id**
+#### **PATCH /api/reviews/:review_id**
 
 Request body accepts:
 
@@ -178,42 +183,43 @@ Request body accepts:
 
   e.g.
 
-  `{ inc_votes : 1 }` would increment the current article's vote property by 1
+  `{ inc_votes : 1 }` would increment the current review's vote property by 1
 
-  `{ inc_votes : -100 }` would decrement the current article's vote property by 100
+  `{ inc_votes : -100 }` would decrement the current review's vote property by 100
 
 Responds with:
 
-- the updated article
+- the updated review
 
 ---
 
-#### **GET /api/articles**
+#### **GET /api/reviews**
 
 Responds with:
 
-- an `articles` array of article objects, each of which should have the following properties:
-  - `author` which is the `username` from the users table
+- an `reviews` array of review objects, each of which should have the following properties:
+  - `owner` which is the `username` from the users table
   - `title`
-  - `article_id`
-  - `topic`
+  - `review_id`
+  - `category`
+  - `review_url`
   - `created_at`
   - `votes`
-  - `comment_count` which is the total count of all the comments with this article_id - you should make use of queries to the database in order to achieve this
+  - `comment_count` which is the total count of all the comments with this review_id - you should make use of queries to the database in order to achieve this
 
 Should accept queries:
 
-- `sort_by`, which sorts the articles by any valid column (defaults to date)
+- `sort_by`, which sorts the reviews by any valid column (defaults to date)
 - `order`, which can be set to `asc` or `desc` for ascending or descending (defaults to descending)
-- `topic`, which filters the articles by the topic value specified in the query
+- `category`, which filters the reviews by the category value specified in the query
 
 ---
 
-#### **GET /api/articles/:article_id/comments**
+#### **GET /api/reviews/:review_id/comments**
 
 Responds with:
 
-- an array of comments for the given `article_id` of which each comment should have the following properties:
+- an array of comments for the given `review_id` of which each comment should have the following properties:
   - `comment_id`
   - `votes`
   - `created_at`
@@ -222,7 +228,7 @@ Responds with:
 
 ---
 
-#### **POST /api/articles/:article_id/comments**
+#### **POST /api/reviews/:review_id/comments**
 
 Request body accepts:
 
@@ -263,7 +269,7 @@ Responds with:
 
 ---
 
-#### **GET /api/users <---- WRITE**
+#### **GET /api/users**
 
 Responds with:
 
@@ -313,18 +319,18 @@ Responds with:
 
 ---
 
-#### Adding pagination to GET /api/articles - adding pagination
+#### Adding pagination to GET /api/reviews
 
-> To make sure that an API can handle large amounts of data, it is often necessary to use **pagination**. Head over to [Google](https://www.google.co.uk/search?q=cute+puppies), and you will notice that the search results are broken down into pages. It would not be feasible to serve up _all_ the results of a search in one go. The same is true of websites / apps like Facebook or Twitter (except they hide this by making requests for the next page in the background, when we scroll to the bottom of the browser). We can implement this functionality on our `/api/articles` and `/api/comments` endpoints.
+> To make sure that an API can handle large amounts of data, it is often necessary to use **pagination**. Head over to [Google](https://www.google.co.uk/search?q=cute+puppies), and you will notice that the search results are broken down into pages. It would not be feasible to serve up _all_ the results of a search in one go. The same is true of websites / apps like Facebook or Twitter (except they hide this by making requests for the next page in the background, when we scroll to the bottom of the browser). We can implement this functionality on our `/api/reviews` and `/api/comments` endpoints.
 
 - Should accepts the following queries:
   - `limit`, which limits the number of responses (defaults to 10)
   - `p`, stands for page which specifies the page at which to start (calculated using limit)
-- add a `total_count` property, displaying the total number of articles (**this should display the total number of articles with any filters applied, discounting the limit**)
+- add a `total_count` property, displaying the total number of reviews (**this should display the total number of reviews with any filters applied, discounting the limit**)
 
 ---
 
-#### Adding pagination to GET /api/articles/:article_id/comments
+#### Adding pagination to GET /api/reviews/:review_id/comments
 
 Should accept the following queries:
 
@@ -333,26 +339,27 @@ Should accept the following queries:
 
 ---
 
-#### POST /api/articles
+#### POST /api/reviews
 
 Request body accepts:
 
 - an object with the following properties:
 
-  - `author` which is the `username` from the users table
+  - `owner` which is the `username` from the users table
   - `title`
-  - `body`
-  - `topic`
+  - `review_body`
+  - `designer`
+  - `category` which is a `category` from the categories table
 
 Responds with:
 
-- the newly added article, with all the above properties as well as:
-  - `article_id`
+- the newly added review, with all the above properties as well as:
+  - `review_id`
   - `votes`
   - `created_at`
   - `comment_count`
 
-#### POST /api/topics
+#### POST /api/categories
 
 Request body accepts:
 
@@ -360,20 +367,20 @@ Request body accepts:
 
 ```json
 {
-  "slug": "topic name here",
+  "slug": "category name here",
   "description": "description here"
 }
 ```
 
 Responds with:
 
-- a topic object containing the newly added topic
+- a category object containing the newly added category
 
-#### DELETE /api/articles/:article_id
+#### DELETE /api/reviews/:review_id
 
 Should:
 
-- delete the given article by article_id
+- delete the given review by review_id
 
 Respond with:
 
