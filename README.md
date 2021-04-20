@@ -50,7 +50,7 @@ Each review should have:
 - `title`
 - `review_body`
 - `designer`
-- `review_url` defaults to **XYZ** <---- RETURN TO
+- `review_img_url` defaults to `https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg`
 - `votes` defaults to 0
 - `category` field which references the slug in the categories table
 - `owner` field that references a user's primary key (username)
@@ -165,7 +165,7 @@ Responds with:
   - `review_id`
   - `review_body`
   - `designer`
-  - `review_url`
+  - `review_img_url`
   - `category`
   - `created_at`
   - `votes`
@@ -202,7 +202,7 @@ Responds with:
   - `title`
   - `review_id`
   - `category`
-  - `review_url`
+  - `review_img_url`
   - `created_at`
   - `votes`
   - `comment_count` which is the total count of all the comments with this review_id - you should make use of queries to the database in order to achieve this
