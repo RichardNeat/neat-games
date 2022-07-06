@@ -17,6 +17,12 @@ There are many ways to host applications like the one you have created. One of t
 
 ## 1. Install the Heroku CLI
 
+With npm:
+
+```bash
+npm i heroku -g
+```
+
 On macOS:
 
 ```bash
@@ -26,9 +32,8 @@ brew tap heroku/brew && brew install heroku
 ...or Ubuntu:
 
 ```bash
-sudo snap install --classic heroku
+curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 ```
-
 ## 2. Create a Heroku App
 
 Log into Heroku using their command line interface:
