@@ -23,7 +23,6 @@ describe('GET /api/categories', () => {
     test('responds with status: 200 and an object containing an array of objects each with the keys "slug" and "description"', () => {
         return request(app).get('/api/categories').expect(200)
             .then(({body}) => {
-                expect(body).toBeInstanceOf(Object);
                 expect(Array.isArray(body.categories)).toBe(true);
                 expect(body.categories.length).toBe(4);
                 body.categories.forEach(category => {
@@ -146,6 +145,29 @@ describe('GET /api/users', () => {
                         username: expect.any(String),
                         name: expect.any(String),
                         avatar_url: expect.any(String)
+                    });
+                });
+            });
+    });
+});
+
+describe('GET /api/reviews', () => {
+    test.only('responds with status: 200 and an array of objects sorted in descending order by "created_at" date', () => {
+        return request(app).get('/api/reviews').expect(200)
+            .then(({body}) => {
+                expect(Array.isArray(body.reviews)).toEqual(true);
+                expect(body.reviews.length).toBe(13);
+                expect(body.reviews).toBeSortedBy('created_at');
+                body.reviews.forEach(review => {
+                    expect(review).toMatchObject({
+                        title: expect.any(String),
+                        designer: expect.any(String),
+                        owner: expect.any(String),
+                        review_img_url: expect.any(String),
+                        category: expect.any(String),
+                        created_at: expect.any(String),
+                        votes: expect.any(Number),
+                        comment_count: expect.any(String)
                     });
                 });
             });
