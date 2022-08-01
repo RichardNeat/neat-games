@@ -69,3 +69,50 @@ describe('GET /api/reviews/:review_id', () => {
             });
     });
 });
+
+describe('PATCH /api/reviews/:review_id', () => {
+    test('responds with status: 201 and and with the updated review incremeneted or decremented by the passed amount', () => {
+        const input = {inc_votes: 2}
+        const expected = {
+            review_id: 1,
+            title: 'Agricola',
+            category: 'euro game',
+            designer: 'Uwe Rosenberg',
+            owner: 'mallionaire',
+            review_body: 'Farmyard fun!',
+            review_img_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+            created_at: "2021-01-18T10:00:20.514Z",
+            votes: 3
+          }
+        return request(app).patch('/api/reviews/1').send(input).expect(201)
+        .then(({body}) => {
+            expect(body.review).toEqual(expected);
+        });
+    })
+    test('status: 400 for invalid review_id provided', () => {
+        return request(app).patch('/api/reviews/bananas').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    })
+    test('status: 404 for valid but non existent review_id', () => {
+        return request(app).patch('/api/reviews/77777').expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("not found");
+            });
+    });
+    test('status: 400 for invalid inc_votes value', () => {
+        const input = {inc_votes: 'banana'};
+        return request(app).patch('/api/reviews/1').send(input).expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe("bad request");
+        });
+    })
+    test('status: 400 for invalid inc_votes key such as inc_vote', () => {
+        const input = {inc_vote: 'banana'};
+        return request(app).patch('/api/reviews/1').send(input).expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe("bad request");
+        });
+    });
+});
