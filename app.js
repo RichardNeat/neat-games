@@ -12,17 +12,23 @@ const {
 } = require('./controllers/reviews');
 
 const {
-    customError,
-    psqlError,
+    getUsers,
+} = require('./controllers/users');
+
+const {
+    customErrors,
+    psqlErrors,
 } = require('./error-handling');
 
 app.get('/api/categories', getCategories);
-app.get('/api/reviews/:review_id', getReviewById)
 
+app.get('/api/reviews/:review_id', getReviewById)
 app.patch('/api/reviews/:review_id', newVote);
 
-app.use(psqlError);
-app.use(customError);
+app.get('/api/users', getUsers);
+
+app.use(psqlErrors);
+app.use(customErrors);
 
 app.all('*', (req, res) => {
     res.status(404).send({msg: 'bad path'})
