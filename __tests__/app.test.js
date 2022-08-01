@@ -25,8 +25,13 @@ describe('GET /api/categories', () => {
             .then(({body}) => {
                 expect(body).toBeInstanceOf(Object);
                 expect(Array.isArray(body.categories)).toBe(true);
-                expect(Object.keys(body.categories[0])).toEqual(["slug", "description"]);
+                expect(body.categories.length).toBe(4);
+                body.categories.forEach(category => {
+                    expect(category).toMatchObject({
+                        description: expect.any(String),
+                        slug: expect.any(String)
+                    });
+                });
             });
     });
 });
-
