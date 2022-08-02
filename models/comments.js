@@ -10,7 +10,7 @@ exports.selectCommentsByReviewId = (review_id) => {
 exports.insertCommentById = (review_id, newComment) => {
     const {username, body} = newComment;
     return db.query('INSERT INTO comments (author, body, review_id, votes, created_at) VALUES ($1, $2, $3, 0, $4) RETURNING *;', [username, body, review_id, new Date])
-        .then((response) => {
-            return response.rows[0];
+        .then(({rows: [comment]}) => {
+            return comment;
         });
 };

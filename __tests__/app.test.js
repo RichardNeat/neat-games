@@ -239,7 +239,27 @@ describe('POST /api/reviews/:review_id/comments', () => {
     test('status: 404 for valid but non existent review_id', () => {
         return request(app).post('/api/reviews/7777/comments').send(input).expect(404)
             .then(({body}) => {
-                expect(body.msg).toBe("id not found");
+                expect(body.msg).toBe("value not found");
+            });
+    });
+    test('status: 400 for invalid input key', () => {
+        const input = {
+            usernam: 'mallionaire',
+            body: "an Uwe classic!"
+        };
+        return request(app).post('/api/reviews/1/comments').send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 400 for user not found', () => {
+        const input = {
+            username: "gandolfini",
+            body: "an Uwe classic!"
+        };
+        return request(app).post('/api/reviews/1/comments').send(input).expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("value not found");
             });
     });
 });

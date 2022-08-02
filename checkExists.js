@@ -2,7 +2,6 @@ const db = require('./db/connection');
 const format = require('pg-format');
 
 const checkExists = (table, column, value) => {
-    // console.log("in utils")
     const queryStr = format('SELECT * FROM %I WHERE %I = $1;', table, column);
     return db.query(queryStr, [value])
         .then((response) => {
