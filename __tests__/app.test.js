@@ -40,22 +40,15 @@ describe('GET /api/reviews/:review_id', () => {
     test('responds with status: 200 and an object containing the correct keys and content', () => {
         return request(app).get('/api/reviews/2').expect(200)
             .then(({body}) => {
-                const expected = {
-                    review_id: 2,
-                    title: 'Jenga',
-                    designer: 'Leslie Scott',
-                    owner: 'philippaclaire9',
-                    review_img_url:
-                      'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
-                    review_body: 'Fiddly fun for all the family',
-                    category: 'dexterity',
-                    created_at: "2021-01-18T10:01:41.251Z",
-                    votes: 5,
-                    comment_count: "3"
-                  }
-                expect(body).toBeInstanceOf(Object);
-                expect(body.review).toBeInstanceOf(Object);
-                expect(body.review).toEqual(expected);
+                expect(body.review.review_id).toBe(2);
+                expect(body.review.title).toEqual(expect.any(String));
+                expect(body.review.designer).toEqual(expect.any(String));
+                expect(body.review.owner).toEqual(expect.any(String));
+                expect(body.review.review_img_url).toEqual(expect.any(String));
+                expect(body.review.review_body).toEqual(expect.any(String));
+                expect(body.review.category).toEqual(expect.any(String));
+                expect(body.review.created_at).toEqual(expect.any(String));
+                expect(body.review.votes).toEqual(expect.any(Number));
             });
     });
     test('status: 400 for invalid review_id provided', () => {
@@ -118,7 +111,7 @@ describe('PATCH /api/reviews/:review_id', () => {
     test('status: 404 for valid but non existent review_id', () => {
         return request(app).patch('/api/reviews/77777').expect(404)
             .then(({body}) => {
-                expect(body.msg).toBe("not found");
+                expect(body.msg).toBe("review_id not found");
             });
     });
     test('status: 400 for invalid inc_votes value', () => {
@@ -134,5 +127,15 @@ describe('PATCH /api/reviews/:review_id', () => {
         .then(({body}) => {
             expect(body.msg).toBe("bad request");
         });
+    });
+});
+
+describe('GET /api/reviews/:review_id amended to include "comment_count" key', () => {
+    test('responds with status: 200 and an object containing the correct keys and content', () => {
+        return request(app).get('/api/reviews/2').expect(200)
+            .then(({body}) => {
+                expect(body.review.review_id).toBe(2);
+                expect(body.review.comment_count).toBe("3");
+            });
     });
 });

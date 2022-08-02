@@ -20,7 +20,7 @@ exports.updateVote = (review_id, updatedReview) => {
             if(response.rowCount === 0) {
                 return Promise.reject({
                     status: 404,
-                    msg: "not found"
+                    msg: "review_id not found"
                 });
             };
             return response.rows[0];
