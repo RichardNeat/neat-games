@@ -7,6 +7,7 @@ const {
 } = require('./controllers/categories');
 
 const {
+    getReviews,
     getReviewById,
     newVote,
 } = require('./controllers/reviews');
@@ -24,11 +25,15 @@ const {
     psqlErrors,
 } = require('./error-handling');
 
+// Categories
 app.get('/api/categories', getCategories);
 
+// Reviews
+app.get('/api/reviews', getReviews);
 app.get('/api/reviews/:review_id', getReviewById)
 app.patch('/api/reviews/:review_id', newVote);
 
+// Users
 app.get('/api/users', getUsers);
 
 app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);

@@ -1,6 +1,7 @@
 const {
     selectReviewById,
     updateVote,
+    selectReviews,
 } = require('../models/reviews');
 
 exports.getReviewById = (req, res, next) => {
@@ -16,4 +17,10 @@ exports.newVote = (req, res, next) => {
     updateVote(review_id, updatedReview).then((review) => {
         res.status(200).send({review});
     }).catch(next);
+};
+
+exports.getReviews = (req, res, next) => {
+    selectReviews().then((reviews) => {
+        res.status(200).send({reviews})
+    });
 };

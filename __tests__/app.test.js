@@ -23,7 +23,6 @@ describe('GET /api/categories', () => {
     test('responds with status: 200 and an object containing an array of objects each with the keys "slug" and "description"', () => {
         return request(app).get('/api/categories').expect(200)
             .then(({body}) => {
-                expect(body).toBeInstanceOf(Object);
                 expect(Array.isArray(body.categories)).toBe(true);
                 expect(body.categories.length).toBe(4);
                 body.categories.forEach(category => {
@@ -155,6 +154,27 @@ describe('GET /api/users', () => {
     });
 });
 
+describe('GET /api/reviews', () => {
+    test('responds with status: 200 and an array of objects sorted in descending order by "created_at" date', () => {
+        return request(app).get('/api/reviews').expect(200)
+            .then(({body}) => {
+                expect(Array.isArray(body.reviews)).toEqual(true);
+                expect(body.reviews.length).toBe(13);
+                expect(body.reviews).toBeSortedBy('created_at', {descending: true});
+                body.reviews.forEach(review => {
+                    expect(review.title).toEqual(expect.any(String));
+                    expect(review.designer).toEqual(expect.any(String));
+                    expect(review.owner).toEqual(expect.any(String));
+                    expect(review.review_img_url).toEqual(expect.any(String));
+                    expect(review.category).toEqual(expect.any(String));
+                    expect(review.created_at).toEqual(expect.any(String));
+                    expect(review.votes).toEqual(expect.any(Number));
+                    expect(review.comment_count).toEqual(expect.any(String));
+                })
+            });
+    });
+});
+
 describe('GET /api/reviews/:review_id/comments', () => {
     test('responds with status: 200 and an array of comments for the given review_id with the correct keys', () => {
         return request(app).get('/api/reviews/2/comments').expect(200)
@@ -187,6 +207,4 @@ describe('GET /api/reviews/:review_id/comments', () => {
         return request(app).get('/api/reviews/7777/comments').expect(404)
             .then(({body}) => {
                 expect(body.msg).toBe("not found");
-            });
-    });
 });
