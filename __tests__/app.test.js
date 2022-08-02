@@ -170,7 +170,45 @@ describe('GET /api/reviews', () => {
                     expect(review.created_at).toEqual(expect.any(String));
                     expect(review.votes).toEqual(expect.any(Number));
                     expect(review.comment_count).toEqual(expect.any(String));
+                });
+            });
+    });
+    test('status 200: should accept sort_by query', () => {
+        return request(app).get('/api/reviews?sort_by=owner').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toBeSortedBy('owner', {descending: true});
+            });
+    });
+    test('status: 400 for invalid sort_by value', () => {
+        return request(app).get('/api/reviews?sort_by=banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 200 can change the order to ASC/DESC', () => {
+        return request(app).get('/api/reviews?order=ASC').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toBeSortedBy('created_at');
+            });
+    });
+    test('status: 400 for invalid order value', () => {
+        return request(app).get('/api/reviews?order=banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 200 can refine by category', () => {
+        return request(app).get('/api/reviews?category=dexterity').expect(200)
+            .then(({body}) => {
+                body.reviews.forEach(review => {
+                    expect(review.category).toBe("dexterity")
                 })
+            });
+    });
+    test('status: 400 for invalid category', () => {
+        return request(app).get('/api/reviews?category=7777').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
             });
     });
 });
