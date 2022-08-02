@@ -207,4 +207,6 @@ describe('GET /api/reviews/:review_id/comments', () => {
         return request(app).get('/api/reviews/7777/comments').expect(404)
             .then(({body}) => {
                 expect(body.msg).toBe("not found");
+            })
+    });
 });
