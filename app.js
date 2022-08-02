@@ -18,11 +18,13 @@ const {
 
 const {
     getCommentsByReviewId,
+    postCommentById,
 } = require('./controllers/comments');
 
 const {
     customErrors,
-    psqlErrors,
+    psqlBasicErrors,
+    psqlComplexErrors,
 } = require('./error-handling');
 
 // Categories
@@ -36,9 +38,12 @@ app.patch('/api/reviews/:review_id', newVote);
 // Users
 app.get('/api/users', getUsers);
 
+// Comments
 app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);
+app.post('/api/reviews/:review_id/comments', postCommentById);
 
-app.use(psqlErrors);
+app.use(psqlBasicErrors);
+app.use(psqlComplexErrors);
 app.use(customErrors);
 
 app.all('*', (req, res) => {

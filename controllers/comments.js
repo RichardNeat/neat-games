@@ -1,5 +1,6 @@
 const {
     selectCommentsByReviewId,
+    insertCommentById,
 } = require('../models/comments');
 
 const {
@@ -16,4 +17,13 @@ exports.getCommentsByReviewId = (req, res, next) => {
         res.status(200).send({comments});
     })
     .catch(next);
+};
+
+exports.postCommentById = (req, res, next) => {
+    const id = req.params.review_id;
+    const newComment = req.body;
+    insertCommentById(id, newComment).then((comment) => {
+        res.status(201).send({comment});
+    })
+    .catch(next)
 };

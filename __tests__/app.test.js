@@ -210,3 +210,36 @@ describe('GET /api/reviews/:review_id/comments', () => {
             })
     });
 });
+
+describe('POST /api/reviews/:review_id/comments', () => {
+    const input = {
+        username: 'mallionaire',
+        body: "an Uwe classic!"
+    };
+    test('accepts a post and responds with status: 201 and the posted comment', () => {
+        const expected = {
+            comment_id: 7,
+            author: 'mallionaire',
+            body: "an Uwe classic!",
+            votes: 0,
+            review_id: 1,
+            created_at: expect.any(String)
+        };
+        return request(app).post('/api/reviews/1/comments').send(input).expect(201)
+            .then(({body}) => {
+                expect(body.comment).toEqual(expected)
+            });
+    });
+    test('status: 400 for invalid review_id', () => {
+        return request(app).post('/api/reviews/bananas/comments').send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 404 for valid but non existent review_id', () => {
+        return request(app).post('/api/reviews/7777/comments').send(input).expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("id not found");
+            });
+    });
+});
