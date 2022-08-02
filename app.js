@@ -17,6 +17,10 @@ const {
 } = require('./controllers/users');
 
 const {
+    getCommentsByReviewId,
+} = require('./controllers/comments');
+
+const {
     customErrors,
     psqlErrors,
 } = require('./error-handling');
@@ -32,12 +36,13 @@ app.patch('/api/reviews/:review_id', newVote);
 // Users
 app.get('/api/users', getUsers);
 
+app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);
+
 app.use(psqlErrors);
 app.use(customErrors);
 
 app.all('*', (req, res) => {
     res.status(404).send({msg: 'bad path'})
     });
-
 
 module.exports = app;

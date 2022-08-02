@@ -146,11 +146,9 @@ describe('GET /api/users', () => {
                 expect(Array.isArray(body.users)).toBe(true);
                 expect(body.users.length).toBe(4);
                 body.users.forEach(user => {
-                    expect(user).toMatchObject({
-                        username: expect.any(String),
-                        name: expect.any(String),
-                        avatar_url: expect.any(String)
-                    });
+                    expect(user.username).toEqual(expect.any(String));
+                    expect(user.name).toEqual(expect.any(String));
+                    expect(user.avatar_url).toEqual(expect.any(String));
                 });
             });
     });
@@ -175,4 +173,38 @@ describe('GET /api/reviews', () => {
                 })
             });
     });
+});
+
+describe('GET /api/reviews/:review_id/comments', () => {
+    test('responds with status: 200 and an array of comments for the given review_id with the correct keys', () => {
+        return request(app).get('/api/reviews/2/comments').expect(200)
+            .then(({body}) => {
+                expect(Array.isArray(body.comments)).toBe(true);
+                expect(body.comments).toHaveLength(3);
+                body.comments.forEach(comment => {
+                    expect(comment.comment_id).toEqual(expect.any(Number));
+                    expect(comment.votes).toEqual(expect.any(Number));
+                    expect(comment.created_at).toEqual(expect.any(String));
+                    expect(comment.author).toEqual(expect.any(String));
+                    expect(comment.body).toEqual(expect.any(String));
+                    expect(comment.review_id).toEqual(expect.any(Number));
+                });
+            });
+    });
+    test('responds with status: 200 and an empty array for valid and existent id but no data', () => {
+        return request(app).get('/api/reviews/1/comments').expect(200)
+            .then(({body}) => {
+                expect(body.comments).toHaveLength(0);
+            });
+    });
+    test('status: 400 for invalid review_id', () => {
+        return request(app).get('/api/reviews/bananas/comments').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 404 for valid but non existent review_id', () => {
+        return request(app).get('/api/reviews/7777/comments').expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("not found");
 });
