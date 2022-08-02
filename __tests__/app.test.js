@@ -198,10 +198,10 @@ describe('GET /api/reviews', () => {
             });
     });
     test('status: 200 can refine by category', () => {
-        return request(app).get('/api/reviews?category=dexterity').expect(200)
+        return request(app).get('/api/reviews?category=eurogame').expect(200)
             .then(({body}) => {
                 body.reviews.forEach(review => {
-                    expect(review.category).toBe("dexterity")
+                    expect(review.category).toBe("euro game")
                 })
             });
     });

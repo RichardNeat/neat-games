@@ -39,7 +39,7 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {
 
     let queryStr = '';
     let injectArr = [];
-
+    
     if(category) {
         queryStr = 'WHERE category = $1'
         injectArr.push(category);
