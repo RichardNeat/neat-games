@@ -152,24 +152,22 @@ describe('GET /api/users', () => {
 });
 
 describe('GET /api/reviews', () => {
-    test.only('responds with status: 200 and an array of objects sorted in descending order by "created_at" date', () => {
+    test('responds with status: 200 and an array of objects sorted in descending order by "created_at" date', () => {
         return request(app).get('/api/reviews').expect(200)
             .then(({body}) => {
                 expect(Array.isArray(body.reviews)).toEqual(true);
                 expect(body.reviews.length).toBe(13);
-                expect(body.reviews).toBeSortedBy('created_at');
+                expect(body.reviews).toBeSortedBy('created_at', {descending: true});
                 body.reviews.forEach(review => {
-                    expect(review).toMatchObject({
-                        title: expect.any(String),
-                        designer: expect.any(String),
-                        owner: expect.any(String),
-                        review_img_url: expect.any(String),
-                        category: expect.any(String),
-                        created_at: expect.any(String),
-                        votes: expect.any(Number),
-                        comment_count: expect.any(String)
-                    });
-                });
+                    expect(review.title).toEqual(expect.any(String));
+                    expect(review.designer).toEqual(expect.any(String));
+                    expect(review.owner).toEqual(expect.any(String));
+                    expect(review.review_img_url).toEqual(expect.any(String));
+                    expect(review.category).toEqual(expect.any(String));
+                    expect(review.created_at).toEqual(expect.any(String));
+                    expect(review.votes).toEqual(expect.any(Number));
+                    expect(review.comment_count).toEqual(expect.any(String));
+                })
             });
     });
 });

@@ -28,7 +28,7 @@ exports.updateVote = (review_id, updatedReview) => {
 };
 
 exports.selectReviews = () => {
-    return db.query('SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id GROUP BY reviews.review_id;')
+    return db.query('SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id GROUP BY reviews.review_id ORDER BY reviews.created_at DESC;')
         .then((response) => {
             return response.rows
         });
