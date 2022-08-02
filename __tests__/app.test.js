@@ -136,6 +136,20 @@ describe('GET /api/reviews/:review_id amended to include "comment_count" key', (
             .then(({body}) => {
                 expect(body.review.review_id).toBe(2);
                 expect(body.review.comment_count).toBe("3");
+
+describe('GET /api/users', () => {
+    test('responds with status: 200 and an array of objects containing the correct keys', () => {
+        return request(app).get('/api/users').expect(200)
+            .then(({body}) => {
+                expect(Array.isArray(body.users)).toBe(true);
+                expect(body.users.length).toBe(4);
+                body.users.forEach(user => {
+                    expect(user).toMatchObject({
+                        username: expect.any(String),
+                        name: expect.any(String),
+                        avatar_url: expect.any(String)
+                    });
+                });
             });
     });
 });
