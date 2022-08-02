@@ -162,13 +162,31 @@ describe('GET /api/reviews/:review_id/comments', () => {
                 expect(Array.isArray(body.comments)).toBe(true);
                 expect(body.comments).toHaveLength(3);
                 body.comments.forEach(comment => {
-                    expect(comment.commend_id).toEqual(expect.any(Number));
+                    expect(comment.comment_id).toEqual(expect.any(Number));
                     expect(comment.votes).toEqual(expect.any(Number));
                     expect(comment.created_at).toEqual(expect.any(String));
                     expect(comment.author).toEqual(expect.any(String));
                     expect(comment.body).toEqual(expect.any(String));
                     expect(comment.review_id).toEqual(expect.any(Number));
                 });
+            });
+    });
+    test('responds with status: 200 and an empty array for valid and existent id but no data', () => {
+        return request(app).get('/api/reviews/1/comments').expect(200)
+            .then(({body}) => {
+                expect(body.comments).toHaveLength(0);
+            });
+    });
+    test('status: 400 for invalid review_id', () => {
+        return request(app).get('/api/reviews/bananas/comments').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 404 for valid but non existent review_id', () => {
+        return request(app).get('/api/reviews/7777/comments').expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("not found");
             });
     });
 });
