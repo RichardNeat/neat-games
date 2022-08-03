@@ -1,3 +1,4 @@
+const { checkExists } = require('../checkExists');
 const {
     selectReviewById,
     updateVote,
@@ -20,7 +21,17 @@ exports.newVote = (req, res, next) => {
 };
 
 exports.getReviews = (req, res, next) => {
-    selectReviews().then((reviews) => {
+    const {sort_by, order, category} = req.query;
+    if(category) {
+        Promise.all([
+            selectReviews(sort_by, order, category),
+            checkExists("categories", "slug", category)
+        ])
+        .then(([reviews]) => {res.status(200).send({reviews})
+        })
+        .catch(next);
+    } else selectReviews(sort_by, order, category).then((reviews) => {
         res.status(200).send({reviews})
-    });
+    })
+    .catch(next);
 };

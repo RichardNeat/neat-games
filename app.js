@@ -43,6 +43,7 @@ app.get('/api/users', getUsers);
 app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);
 app.post('/api/reviews/:review_id/comments', postCommentById);
 
+// EHMFs
 app.use(psqlBasicErrors);
 app.use(psqlComplexErrors);
 app.use(customErrors);

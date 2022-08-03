@@ -27,9 +27,27 @@ exports.updateVote = (review_id, updatedReview) => {
         });
 };
 
-exports.selectReviews = () => {
-    return db.query('SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id GROUP BY reviews.review_id ORDER BY reviews.created_at DESC;')
+exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {  
+
+    const validSortBys = ["title", "designer", "owner", "review_img_url", "review_body", "category", "created_at", "votes", "comment_count"];
+
+    if (!validSortBys.includes(sort_by) || !['ASC', 'DESC'].includes(order)) {
+        return Promise.reject({
+            status:(400),
+            msg: "bad request"
+        });
+    };
+
+    let queryStr = '';
+    let injectArr = [];
+
+    if(category) {
+        queryStr = 'WHERE category = $1'
+        injectArr.push(category);
+    };
+
+    return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`, injectArr)
         .then((response) => {
-            return response.rows
+            return response.rows;
         });
 };
