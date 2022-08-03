@@ -1,6 +1,7 @@
 const {
     selectCommentsByReviewId,
     insertCommentById,
+    deleteCommentById,
 } = require('../models/comments');
 
 const {

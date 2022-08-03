@@ -19,6 +19,7 @@ const {
 const {
     getCommentsByReviewId,
     postCommentById,
+    removeCommentById,
 } = require('./controllers/comments');
 
 const {
