@@ -30,5 +30,81 @@
         }
       ]
     }
+  },
+  "GET /api/reviews/:review_id": {
+    "description": "servers a single review filtered by the passed review_id",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "title" : "Scythe; you're gonna need a bigger table!",
+        "designer": "Jamey Stegmaier",
+        "owner": "mallionaire",
+        "review_img_url": "https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg",
+        "review_body": "Spend 30 minutes just setting up all of the boards (!) meeple and decks, just to forget how to play. Scythe can be a lengthy game but really packs a punch if you put the time in. With beautiful artwork, countless scenarios and clever game mechanics, this board game is a must for any board game fanatic; just make sure you explain ALL the rules before you start playing with first timers or you may find they bring it up again and again.",
+        "category": "social deduction",
+        "created_at": 1611311824839,
+        "votes": 100
+      }
+    }
+  },
+  "PATCH /api/reviews/:review_id": {
+    "description": "increments the vote count of the selected review by the passed number",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "title": "Agricola",
+        "designer": "Uwe Rosenberg",
+        "owner": "mallionaire",
+        "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+        "review_body": "Farmyard fun!",
+        "category": "euro game",
+        "created_at": 1610964020514,
+        "votes": 1
+      }
+    }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all of the users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "mallionaire",
+          "name": "haz",
+          "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+        }
+      ]
+    }
+  },
+  "GET /api/reviews/:review_id/comments" : {
+    "description": "serves a single comment refined by selected id",
+    "queries": [],
+    "exampleResponse": {
+      "comments":  {
+        "body": "I loved this game too!",
+        "votes": 16,
+        "author": "bainesface",
+        "review_id": 2,
+        "created_at": 1511354613389
+      }
+    }
+  },
+  "POST /api/reviews/:review_id/comments": {
+    "description": "takes a new comment and adds it to the database, returning that comment",
+    "queries": [],
+    "exampleResponse": {
+      "comment": {
+        "body": "an Uwe classic!",
+        "votes": 0,
+        "author": "mallionaire",
+        "review_id": 1,
+        "created_at": 1511354613389
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "removes a comment from the database by selected comment_id",
+    "queries": [],
+    "exampleResponse": {}
   }
 }

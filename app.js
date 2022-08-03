@@ -23,10 +23,16 @@ const {
 } = require('./controllers/comments');
 
 const {
+    getApis,
+} = require('./controllers/apis')
+
+const {
     customErrors,
     psqlBasicErrors,
     psqlComplexErrors,
 } = require('./error-handling');
+
+app.get('/api', getApis);
 
 // Categories
 app.get('/api/categories', getCategories);
