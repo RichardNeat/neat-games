@@ -10,6 +10,23 @@ afterAll(() => {
 
 beforeEach (() => seed(testData));
 
+describe('GET /api', () => {
+    test('responds with all available endpoints', () => {
+        request(app).get('/api').expect(200)
+            .then(({body}) => {
+                expect(body.apis["GET /api"]).toEqual(expect.any(Object));
+                expect(body.apis["GET /api/categories"]).toEqual(expect.any(Object));
+                expect(body.apis["GET /api/reviews"]).toEqual(expect.any(Object));
+                expect(body.apis["GET /api/reviews/:review_id"]).toEqual(expect.any(Object));
+                expect(body.apis["PATCH /api/reviews/:review_id"]).toEqual(expect.any(Object));
+                expect(body.apis["GET /api/users"]).toEqual(expect.any(Object));
+                expect(body.apis["GET /api/reviews/:review_id/comments"]).toEqual(expect.any(Object));
+                expect(body.apis["POST /api/reviews/:review_id/comments"]).toEqual(expect.any(Object));
+                expect(body.apis["DELETE /api/comments/:comment_id"]).toEqual(expect.any(Object));
+            });
+    });
+});
+
 describe('GET /api/nonsense', () => {
     test('handles all bad URL entries', () => {
         return request(app).get('/api/nonsense').expect(404)
