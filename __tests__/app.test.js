@@ -198,17 +198,18 @@ describe('GET /api/reviews', () => {
             });
     });
     test('status: 200 can refine by category', () => {
-        return request(app).get('/api/reviews?category=eurogame').expect(200)
+        return request(app).get('/api/reviews?category=euro+game').expect(200)
             .then(({body}) => {
+                expect(body.reviews).toHaveLength(1);
                 body.reviews.forEach(review => {
                     expect(review.category).toBe("euro game")
                 })
             });
     });
-    test('status: 400 for invalid category', () => {
-        return request(app).get('/api/reviews?category=7777').expect(400)
+    test('status: 404 for category not found', () => {
+        return request(app).get('/api/reviews?category=banana').expect(404)
             .then(({body}) => {
-                expect(body.msg).toBe("bad request");
+                expect(body.msg).toBe("not found");
             });
     });
 });
