@@ -28,3 +28,11 @@ exports.postCommentById = (req, res, next) => {
     })
     .catch(next)
 };
+
+exports.removeCommentById = (req, res, next) => {
+    const id = req.params.comment_id;
+    deleteCommentById(id).then((response) => {
+        res.status(204).send();
+    })
+    .catch(next);
+};
