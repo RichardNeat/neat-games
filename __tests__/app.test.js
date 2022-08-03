@@ -212,6 +212,12 @@ describe('GET /api/reviews', () => {
                 expect(body.msg).toBe("not found");
             });
     });
+    test('responds with status: 200 and an empty array for valid and existent category but no data', () => {
+        return request(app).get("/api/reviews/?category=children's+games").expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(0);
+            });
+    });
 });
 
 describe('GET /api/reviews/:review_id/comments', () => {

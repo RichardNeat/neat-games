@@ -48,12 +48,6 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {
 
     return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`, injectArr)
         .then((response) => {
-            if(response.rowCount === 0) {
-                return Promise.reject({
-                    status: 404,
-                    msg: "not found"
-                });
-            };
             return response.rows;
         });
 };
