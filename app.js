@@ -42,6 +42,7 @@ app.get('/api/users', getUsers);
 // Comments
 app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);
 app.post('/api/reviews/:review_id/comments', postCommentById);
+app.delete('/api/comments/:comment_id', removeCommentById),
 
 app.use(psqlBasicErrors);
 app.use(psqlComplexErrors);

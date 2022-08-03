@@ -263,3 +263,24 @@ describe('POST /api/reviews/:review_id/comments', () => {
             });
     });
 });
+
+describe('DELETE /api/comments/:comment_id', () => {
+    test('responds with status: 204 removing the correct comment and returns no content', () => {
+        return request(app).delete('/api/comments/1').expect(204)
+            .then(({body}) => {
+                expect(body).toEqual({});
+            });
+    });
+    test('status: 400 for invalid comment_id', () => {
+        return request(app).delete('/api/comments/banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request")
+            });
+    });
+    test('status 404 for valid but non existent comment_id', () => {
+        return request(app).delete('/api/comments/7777').expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("not found");
+            });
+    });
+});
