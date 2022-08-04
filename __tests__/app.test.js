@@ -314,7 +314,7 @@ describe('POST /api/reviews/:review_id/comments', () => {
                 expect(body.msg).toBe("bad request");
             });
     });
-    test('status: 400 for user not found', () => {
+    test('status: 404 for user not found', () => {
         const input = {
             username: "gandolfini",
             body: "an Uwe classic!"
@@ -408,6 +408,72 @@ describe('PATCH /api/comments/:comment_id', () => {
         return request(app).patch('/api/comments/1').send(badInput2).expect(400)
             .then(({body}) => {
                 expect(body.msg).toBe("bad request");
+            });
+    });
+});
+
+describe('POST /api/reviews', () => {
+    input = {
+        owner: "mallionaire",
+        title: "Terraforming Mars",
+        review_body: "My favourite game!",
+        designer: "Jacob Fryxelius",
+        category: "euro game"
+    };
+    test('responds with status: 201, accepts a new review object and returns the added review', () => {
+        expected = {
+            review_id: 14,
+            owner: "mallionaire",
+            review_img_url: expect.any(String),
+            title: "Terraforming Mars",
+            review_body: "My favourite game!",
+            designer: "Jacob Fryxelius",
+            category: "euro game",
+            created_at: expect.any(String),
+            votes: 0
+        };
+        return request(app).post('/api/reviews').send(input).expect(201)
+            .then(({body}) => {
+                expect(body.review).toEqual(expected);
+            });
+    });
+    test('responds with status: 400 for invalid key', () => {
+        input = {
+            ower: "mallionaire",
+            title: "Terraforming Mars",
+            review_body: "My favourite game!",
+            designer: "Jacob Fryxelius",
+            category: "euro game"
+        };
+        return request(app).post('/api/reviews').send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('responds with status: 400 for invalid value', () => {
+        input = {
+            ower: "mallionaire",
+            title: "Terraforming Mars",
+            review_body: "My favourite game!",
+            designer: 777,
+            category: "euro game"
+        };
+        return request(app).post('/api/reviews').send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('responds with status: 404 for username or category not found', () => {
+        input = {
+            owner: "gandolfini",
+            title: "Terraforming Mars",
+            review_body: "My favourite game!",
+            designer: 'Jacob Fryxelius',
+            category: "euro game"
+        };
+        return request(app).post('/api/reviews').send(input).expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("value not found");
             });
     });
 });

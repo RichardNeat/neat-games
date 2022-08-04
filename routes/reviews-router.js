@@ -4,6 +4,7 @@ const {
     getReviews,
     getReviewById,
     addVote,
+    postReview,
 } = require('../controllers/reviews');
 
 const {
@@ -12,7 +13,8 @@ const {
 } = require('../controllers/comments');
 
 reviewsRouter.route('/')
-.get(getReviews);
+.get(getReviews)
+.post(postReview);
 
 reviewsRouter.route('/:review_id')
 .get(getReviewById)

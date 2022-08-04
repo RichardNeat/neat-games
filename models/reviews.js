@@ -51,3 +51,11 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {
             return response.rows;
         });
 };
+
+exports.insertReview = (newReview) => {
+    const {owner, title, review_body, designer, category} = newReview;
+    return db.query('INSERT INTO reviews (owner, title, review_body, designer, category, votes, created_at) VALUES ($1, $2, $3, $4, $5, 0, $6) RETURNING *;', [owner, title, review_body, designer, category, new Date])
+        .then((response) => {
+            return response.rows[0];
+        });
+};
