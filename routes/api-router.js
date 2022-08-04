@@ -4,9 +4,9 @@ const categoriesRouter = require('./categories-router.js');
 const commentsRouter = require('./comments-router.js');
 const reviewsRouter = require('./reviews-router.js');
 
-apiRouter.use('/users-router.js', usersRouter);
-apiRouter.use('/categories-router.js', categoriesRouter);
-apiRouter.use('/reviews-router.js', reviewsRouter);
-apiRouter.use('/comments-router.js', commentsRouter);
+apiRouter.use('/users', usersRouter);
+apiRouter.use('/categories', categoriesRouter);
+apiRouter.use('/reviews', reviewsRouter);
+apiRouter.use('/comments', commentsRouter);
 
 module.exports = apiRouter;

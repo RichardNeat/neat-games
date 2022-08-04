@@ -4,25 +4,25 @@ app.use(express.json());
 const apiRouter = require('./routes/api-router.js');
 app.use('/api', apiRouter);
 
-const {
-    getCategories,
-} = require('./controllers/categories');
+// const {
+//     getCategories,
+// } = require('./controllers/categories');
 
-const {
-    getReviews,
-    getReviewById,
-    newVote,
-} = require('./controllers/reviews');
+// const {
+//     getReviews,
+//     getReviewById,
+//     newVote,
+// } = require('./controllers/reviews');
 
-const {
-    getUsers,
-} = require('./controllers/users');
+// const {
+//     getUsers,
+// } = require('./controllers/users');
 
-const {
-    getCommentsByReviewId,
-    postCommentById,
-    removeCommentById,
-} = require('./controllers/comments');
+// const {
+//     getCommentsByReviewId,
+//     postCommentById,
+//     removeCommentById,
+// } = require('./controllers/comments');
 
 const {
     getApis,
@@ -36,23 +36,21 @@ const {
 
 app.get('/api', getApis);
 
-apiRouter.get('/api');
-
-// Categories
-app.get('/api/categories', getCategories);
+// // Categories
+// app.get('/api/categories', getCategories);
 
 // Reviews
-app.get('/api/reviews', getReviews);
-app.get('/api/reviews/:review_id', getReviewById)
-app.patch('/api/reviews/:review_id', newVote);
+// app.get('/api/reviews', getReviews);
+// app.get('/api/reviews/:review_id', getReviewById)
+// app.patch('/api/reviews/:review_id', newVote);
 
 // Users
-app.get('/api/users', getUsers);
+// app.get('/api/users', getUsers);
 
 // Comments
-app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);
-app.post('/api/reviews/:review_id/comments', postCommentById);
-app.delete('/api/comments/:comment_id', removeCommentById),
+// app.get('/api/reviews/:review_id/comments', getCommentsByReviewId);
+// app.post('/api/reviews/:review_id/comments', postCommentById);
+// app.delete('/api/comments/:comment_id', removeCommentById),
 
 // EHMFs
 app.use(psqlBasicErrors);

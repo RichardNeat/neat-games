@@ -1,17 +1,12 @@
 const commentsRouter = require('express').Router();
 
-commentsRouter.route('/')
-.get((req, res) => {
-    res.status(200).send('All OK from GET /api/users');
-})
-.post((req, res) => {
-    res.status(200).send('All OK from POST /api/users');
-})
-.patch((req, res) => {
-    res.status(200).send('All OK from PATCH /api/users');
-})
-.delete((req, res) => {
-    res.status(200).send('All OK from DELETE /api/users');
-});
+const {
+    removeCommentById,
+} = require('../controllers/comments');
+
+commentsRouter.route('/:comment_id')
+.delete(removeCommentById);
+
+
 
 module.exports = commentsRouter;

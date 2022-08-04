@@ -1,17 +1,25 @@
 const reviewsRouter = require('express').Router();
 
+const {
+    getReviews,
+    getReviewById,
+    newVote,
+} = require('../controllers/reviews');
+
+const {
+    getCommentsByReviewId,
+    postCommentById,
+} = require('../controllers/comments');
+
 reviewsRouter.route('/')
-.get((req, res) => {
-    res.status(200).send('All OK from GET /api/users');
-})
-.post((req, res) => {
-    res.status(200).send('All OK from POST /api/users');
-})
-.patch((req, res) => {
-    res.status(200).send('All OK from PATCH /api/users');
-})
-.delete((req, res) => {
-    res.status(200).send('All OK from DELETE /api/users');
-});
+.get(getReviews);
+
+reviewsRouter.route('/:review_id')
+.get(getReviewById)
+.patch(newVote);
+
+reviewsRouter.route('/:review_id/comments')
+.get(getCommentsByReviewId)
+.post(postCommentById);
 
 module.exports = reviewsRouter;
