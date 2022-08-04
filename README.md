@@ -29,7 +29,7 @@ Create two files:
 ".env.development"
 ".env.test"
 The development file should contain the text "PGDATABASE=nc_games" to connect to the main development database.
-The test file should containt the text "PGDATABASE=nc_games_test" to connect to the test database.
+The test file should contain the text "PGDATABASE=nc_games_test" to connect to the test database.
 add to your .gitignore file along with your node_modules:
 ".env.*"
 
