@@ -1,6 +1,6 @@
 ## Hosted Version Link
 
-
+https://neat-games.herokuapp.com/api
 
 ## Project Summary
 
@@ -37,5 +37,5 @@ add to your .gitignore file along with your node_modules:
 
 In order to run this project the minimimum version requirements are as follows:
 
-Node.js: "17.0.29"
-Postgres: "Perl 5.8"
+Node.js: "18.6.0"
+Postgres: "14.4"
