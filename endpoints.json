@@ -106,5 +106,26 @@
     "description": "removes a comment from the database by selected comment_id",
     "queries": [],
     "exampleResponse": {}
+  },
+  "GET /api/users/:username": {
+    "description": "provides a single user refined by username",
+    "queries": [],
+    "exampleResponse": {
+      "username": "mallionaire",
+      "name": "haz",
+      "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+    }
+  },
+  "PATCH /api/comments/:commend_id": {
+    "description": "increments the votes value by the passed amount and sends back the updated comment",
+    "queries": [],
+    "exampleResponse": {
+      "comment_id": 1,
+      "body": "I loved this game too!",
+      "votes": 18,
+      "author": "bainesface",
+      "review_id": 2,
+      "created_at": 1511354613389
+    }
   }
 }
