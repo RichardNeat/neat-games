@@ -27,8 +27,7 @@
     "express": "^4.18.1",
     "pg": "^8.7.3",
     "pg-format": "^1.0.4",
-    "body-parser":"*",
-    "bcrypt": "^0.8.5"
+    "body-parser":"*"
   },
   "devDependencies": {
     "husky": "^7.0.0",
@@ -42,9 +41,5 @@
       "jest-extended/all",
       "jest-sorted"
     ]
-  },
-  "engines": {
-    "npm": ">=6.0.0",
-    "node": ">=10.0.0"
   }
 }
