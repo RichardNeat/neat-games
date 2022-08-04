@@ -114,16 +114,16 @@ describe('PATCH /api/reviews/:review_id', () => {
             votes: -49
           }
         return request(app).patch('/api/reviews/1').send(input).expect(200)
-        .then(({body}) => {
-            expect(body.review).toEqual(expected);
-        });
-    })
+            .then(({body}) => {
+                expect(body.review).toEqual(expected);
+            });
+    });
     test('status: 400 for invalid review_id provided', () => {
         return request(app).patch('/api/reviews/bananas').expect(400)
             .then(({body}) => {
                 expect(body.msg).toBe("bad request");
             });
-    })
+    });
     test('status: 404 for valid but non existent review_id', () => {
         return request(app).patch('/api/reviews/77777').expect(404)
             .then(({body}) => {
@@ -136,7 +136,7 @@ describe('PATCH /api/reviews/:review_id', () => {
         .then(({body}) => {
             expect(body.msg).toBe("bad request");
         });
-    })
+    });
     test('status: 400 for invalid inc_votes key such as inc_vote', () => {
         const input = {inc_vote: 'banana'};
         return request(app).patch('/api/reviews/1').send(input).expect(400)
@@ -364,6 +364,50 @@ describe('GET /api/users/:username', () => {
         return request(app).get('/api/users/gandolfini').expect(404)
             .then(({body}) => {
                 expect(body.msg).toBe("not found");
+            });
+    });
+});
+
+describe('PATCH /api/comments/:comment_id', () => {
+    const input = {inc_vote: 2};
+    test('status: 200 and responds with the selected comment and with the vote value incremented by the passed value', () => {
+        const expected = {
+            comment_id: 1,
+            body: 'I loved this game too!',
+            votes: 18,
+            author: 'bainesface',
+            review_id: 2,
+            created_at: expect.any(String)
+        };
+        return request(app).patch('/api/comments/1').send(input).expect(200)
+            .then(({body}) => {
+                expect(body.comment).toEqual(expected);
+            });
+    });
+    test('status: 400 for invalid comment_id', () => {
+        return request(app).patch('/api/comments/banana').send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 404 for valid but non existent comment_id', () => {
+        return request(app).patch('/api/comments/7777').send(input).expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("not found");
+            });
+    });
+    test('status: 400 for invalid key sent', () => {
+        const badInput = {in_vote: 2};
+        return request(app).patch('/api/comments/1').send(badInput).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 400 for invalid value sent', () => {
+        const badInput2 = {in_vote: "banana"};
+        return request(app).patch('/api/comments/1').send(badInput2).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
             });
     });
 });

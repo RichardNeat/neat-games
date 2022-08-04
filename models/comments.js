@@ -26,3 +26,17 @@ exports.deleteCommentById = (id) => {
             };
         });
 };
+
+exports.updateCommentVote = (id, updateComment) => {
+    const {inc_vote} = updateComment;
+    return db.query('UPDATE comments SET votes = votes + $1 WHERE comment_id = $2 RETURNING *;', [inc_vote, id])
+        .then((response) => {
+            if (response.rowCount === 0) {
+                return Promise.reject({
+                    status: 404,
+                    msg: "not found"
+                });
+            };
+            return response.rows[0];
+        });
+};

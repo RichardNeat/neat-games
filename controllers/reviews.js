@@ -12,7 +12,7 @@ exports.getReviewById = (req, res, next) => {
     }).catch(next);
 };
 
-exports.newVote = (req, res, next) => {
+exports.addVote = (req, res, next) => {
     const review_id = req.params.review_id;
     const updatedReview = req.body;
     updateVote(review_id, updatedReview).then((review) => {

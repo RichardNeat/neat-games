@@ -3,7 +3,7 @@ const reviewsRouter = require('express').Router();
 const {
     getReviews,
     getReviewById,
-    newVote,
+    addVote,
 } = require('../controllers/reviews');
 
 const {
@@ -16,7 +16,7 @@ reviewsRouter.route('/')
 
 reviewsRouter.route('/:review_id')
 .get(getReviewById)
-.patch(newVote);
+.patch(addVote);
 
 reviewsRouter.route('/:review_id/comments')
 .get(getCommentsByReviewId)
