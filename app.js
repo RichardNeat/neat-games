@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+const apiRouter = require('./routes/api-router.js');
+app.use('/api', apiRouter);
 
 const {
     getCategories,
@@ -33,6 +35,8 @@ const {
 } = require('./error-handling');
 
 app.get('/api', getApis);
+
+apiRouter.get('/api');
 
 // Categories
 app.get('/api/categories', getCategories);
