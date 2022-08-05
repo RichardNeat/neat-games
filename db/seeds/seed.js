@@ -16,7 +16,7 @@ const seed = async (data) => {
 	const topicsTablePromise = db.query(`
   CREATE TABLE categories (
     slug VARCHAR PRIMARY KEY,
-    description VARCHAR
+    description VARCHAR NOT NULL
   );`);
 
 	const usersTablePromise = db.query(`

@@ -366,6 +366,12 @@ describe('GET /api/users/:username', () => {
                 expect(body.msg).toBe("not found");
             });
     });
+    test('new endpoint added to GET /api', () => {
+        request(app).get('/api').expect(200)
+            .then(({body}) => {
+                    expect(body.apis["GET /api/users/:username"]).toEqual(expect.any(Object));
+            });
+    });
 });
 
 describe('PATCH /api/comments/:comment_id', () => {
@@ -408,6 +414,12 @@ describe('PATCH /api/comments/:comment_id', () => {
         return request(app).patch('/api/comments/1').send(badInput2).expect(400)
             .then(({body}) => {
                 expect(body.msg).toBe("bad request");
+            });
+    });
+    test('new endpoint added to GET /api', () => {
+        request(app).get('/api').expect(200)
+            .then(({body}) => {
+                    expect(body.apis["PATCH /api/comments/:comment_id"]).toEqual(expect.any(Object));
             });
     });
 });
@@ -474,6 +486,12 @@ describe('POST /api/reviews', () => {
         return request(app).post('/api/reviews').send(input).expect(404)
             .then(({body}) => {
                 expect(body.msg).toBe("value not found");
+            });
+    });
+    test('new endpoint added to GET /api', () => {
+        request(app).get('/api').expect(200)
+            .then(({body}) => {
+                    expect(body.apis["POST /api/reviews"]).toEqual(expect.any(Object));
             });
     });
 });
@@ -562,6 +580,39 @@ describe('GET /api/reviews/:review_id/comments using pagination', () => {
         return request(app).get('/api/reviews?limit=banana').expect(400)
             .then(({body}) => {
                 expect(body.msg).toBe("bad request");
+            });
+    });
+});
+
+describe('POST /api/categories', () => {
+    const input = {
+        "slug": "deck builder",
+        "description": "a card game where you start with a basic deck and increase its strength over time"
+      };
+    test('responds with status: 201 and the added category', () => {
+        const expected = {
+            slug: "deck builder",
+            description: "a card game where you start with a basic deck and increase its strength over time"
+          };
+        return request(app).post('/api/categories').send(input).expect(201)
+            .then(({body}) => {
+                expect(body.category).toEqual(expected);
+            });
+    });
+    test('status: 400 for invalid key', () => {
+        const input = {
+            slug: "deck builder",
+            dezcription: "a card game where you start with a basic deck and increase its strength over time"
+          };
+        return request(app).post('/api/categories').send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('new endpoint added to GET /api', () => {
+        request(app).get('/api').expect(200)
+            .then(({body}) => {
+                    expect(body.apis["POST /api/categories"]).toEqual(expect.any(Object));
             });
     });
 });
