@@ -593,7 +593,7 @@ describe('POST /api/categories', () => {
         const expected = {
             slug: "deck builder",
             description: "a card game where you start with a basic deck and increase its strength over time"
-          };
+          }
         return request(app).post('/api/categories').send(input).expect(201)
             .then(({body}) => {
                 expect(body.category).toEqual(expected);
