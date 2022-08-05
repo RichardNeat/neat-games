@@ -478,14 +478,51 @@ describe('POST /api/reviews', () => {
     });
 });
 
-// describe.only('GET /api/reviews using pagination', () => {
-//     test('responds with status: 200 and a list of 10 results on page 1', () => {
-//         return request(app).get('/api/reviews?p=1&limit=5').expect(200)
-//             .then(({body}) => {
-//                 expect(body.reviews).toHaveLength(5);
-//                 body.reviews.forEach((review) => {
-//                     expect(review.total_count).toBe("13");
-//                 });
-//             });
-//     });
-// });
+describe('GET /api/reviews using pagination', () => {
+    test('responds with status: 200 and a list of 5 results on page 1', () => {
+        return request(app).get('/api/reviews?p=1&limit=5').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(5);
+            });
+    });
+    test('responds with status: 200 and a list of 5 results on page 2', () => {
+        return request(app).get('/api/reviews?p=2&limit=5').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(5);
+            });
+    });
+    test('responds with status: 200 and a list of 3 results on page 3', () => {
+        return request(app).get('/api/reviews?p=3&limit=5').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(3);
+            });
+    });
+    test('responds with status: 200 and a list of 10 results on page 1 if no limit is set', () => {
+        return request(app).get('/api/reviews?p=1').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(10);
+            });
+    });
+    test('responds with status: 200 and a list of 3 results on page 2 if no limit is set', () => {
+        return request(app).get('/api/reviews?p=2').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(3);
+            });
+    });
+    // test.only('responds with status: 200 and response includes a total_count of all reviews', () => {
+    //     return request(app).get('/api/reviews?p=1').expect(200)
+    //         .then(({body}) => {
+    //             body.reviews.forEach((review) => {
+    //                 expect(review.total_count).toBe(13);
+    //             });
+    //         });
+    // });
+    // test.only('responds with status: 200 and response includes a total_count of all reviews refined by category', () => {
+    //     return request(app).get('/api/reviews?p=1&category=social+deduction&limit=2&sort_by=review_id&order=ASC').expect(200)
+    //         .then(({body}) => {
+    //             body.reviews.forEach((review) => {
+    //                 expect(review.total_count).toBe(11);
+    //             });
+    //         });
+    // });
+});
