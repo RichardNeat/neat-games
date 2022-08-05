@@ -543,7 +543,6 @@ describe('GET /api/reviews using pagination', () => {
         return request(app).get('/api/reviews?p=1').expect(200)
             .then(({body}) => {
                 body.reviews.forEach((review) => {
-                    console.log(body.reviews);
                     expect(review.total_count).toBe("13");
                 });
             });
