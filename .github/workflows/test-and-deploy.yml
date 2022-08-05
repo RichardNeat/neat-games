@@ -11,16 +11,6 @@ jobs:
       - name: Greeting
         run: echo hello there!
 
-  # test-utils:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout and clone
-  #       uses: actions/checkout@v2.4.2
-  #     - name: Install dependencies
-  #       run: npm install
-  #     - name: Test Utils
-  #       run: npm run test-utils
-
   test-app:
       runs-on: ubuntu-latest
       steps:
@@ -36,5 +26,19 @@ jobs:
           run: npm install
         - name: Test App
           run: PGDATABASE=test_db PGUSER=test_user PGPASSWORD=password npm run test-app
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test-app
+    steps: 
+      - name: Checkout and clone
+        uses: actions/checkout@v2.4.2
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+
         
       
