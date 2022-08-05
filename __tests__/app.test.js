@@ -539,22 +539,22 @@ describe('GET /api/reviews using pagination', () => {
                 expect(body.msg).toBe("bad request");
             });
     });
-    test('responds with status: 200 and response includes a total_count of all reviews', () => {
-        return request(app).get('/api/reviews?p=1').expect(200)
-            .then(({body}) => {
-                body.reviews.forEach((review) => {
-                    expect(review.total_count).toBe(13);
-                });
-            });
-    });
-    test('responds with status: 200 and response includes a total_count of all reviews refined by category', () => {
-        return request(app).get('/api/reviews?p=1&category=social+deduction&limit=2&sort_by=review_id&order=ASC').expect(200)
-            .then(({body}) => {
-                body.reviews.forEach((review) => {
-                    expect(review.total_count).toBe(11);
-                });
-            });
-    });
+    // test('responds with status: 200 and response includes a total_count of all reviews', () => {
+    //     return request(app).get('/api/reviews?p=1').expect(200)
+    //         .then(({body}) => {
+    //             body.reviews.forEach((review) => {
+    //                 expect(review.total_count).toBe(13);
+    //             });
+    //         });
+    // });
+    // test('responds with status: 200 and response includes a total_count of all reviews refined by category', () => {
+    //     return request(app).get('/api/reviews?p=1&category=social+deduction&limit=2&sort_by=review_id&order=ASC').expect(200)
+    //         .then(({body}) => {
+    //             body.reviews.forEach((review) => {
+    //                 expect(review.total_count).toBe(11);
+    //             });
+    //         });
+    // });
 });
 
 describe('GET /api/reviews/:review_id/comments using pagination', () => {
