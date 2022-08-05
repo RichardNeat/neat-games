@@ -51,9 +51,15 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category, limit
         injectArr.push(category);
     };
 
-    return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count, SUM(reviews.review_id) AS total_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`, injectArr)
-        .then((response) => {
-            return response.rows;
+    return db.query(`SELECT COUNT(*) AS total_count FROM reviews ${queryStr};`, injectArr)
+        .then(({rows: [total_count]}) => {
+            return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`, injectArr)
+                .then(({rows: reviews}) => {
+                    return reviews.map((review) => {
+                        review.total_count = total_count.total_count;
+                        return review;
+                    });
+                });
         });
 };
 
