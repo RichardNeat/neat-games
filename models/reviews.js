@@ -27,7 +27,7 @@ exports.updateVote = (review_id, updatedReview) => {
         });
 };
 
-exports.selectReviews = (sort_by = "created_at", order = "DESC", category, limit = 10, p) => { 
+exports.selectReviews = (sort_by = "created_at", order = "DESC", category, limit = 10, p = 1) => { 
 
     let offset = 0;
     if (p > 1) {
@@ -36,7 +36,7 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category, limit
 
     const validSortBys = ["review_id", "title", "designer", "owner", "review_img_url", "review_body", "category", "created_at", "votes", "comment_count"];
 
-    if (!validSortBys.includes(sort_by) || !['ASC', 'DESC'].includes(order) || !/[0-9]+/.test(limit) || !/[0-9]+/.test(offset)){
+    if (!validSortBys.includes(sort_by) || !['ASC', 'DESC'].includes(order) || !/[0-9]+/.test(limit) || !/[0-9]+/.test(offset) || !/[0-9]+/.test(p)){
         return Promise.reject({
             status:(400),
             msg: "bad request"

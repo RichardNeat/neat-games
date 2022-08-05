@@ -11,8 +11,9 @@ const {
 
 exports.getCommentsByReviewId = (req, res, next) => {
     const id = req.params.review_id;
+    const {limit, p} = req.query;
     Promise.all([
-        selectCommentsByReviewId(id),
+        selectCommentsByReviewId(id, limit, p),
         checkExists("reviews", "review_id", id)
     ])
         .then(([comments]) => {

@@ -15,8 +15,8 @@
     }
   },
   "GET /api/reviews": {
-    "description": "serves an array of all reviews",
-    "queries": ["category", "sort_by", "order"],
+    "description": "serves an array of all reviews with pagination",
+    "queries": ["category", "sort_by", "order", "limit", "p"],
     "exampleResponse": {
       "reviews": [
         {
@@ -77,16 +77,18 @@
     }
   },
   "GET /api/reviews/:review_id/comments" : {
-    "description": "serves a single comment refined by selected id",
-    "queries": [],
+    "description": "serves an array of comments refined by selected id, uses pagination",
+    "queries": ["p", "limit"],
     "exampleResponse": {
-      "comments":  {
+      "comments":  [
+        {
         "body": "I loved this game too!",
         "votes": 16,
         "author": "bainesface",
         "review_id": 2,
         "created_at": 1511354613389
-      }
+        }
+      ]
     }
   },
   "POST /api/reviews/:review_id/comments": {

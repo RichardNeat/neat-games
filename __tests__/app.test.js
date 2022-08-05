@@ -509,6 +509,18 @@ describe('GET /api/reviews using pagination', () => {
                 expect(body.reviews).toHaveLength(3);
             });
     });
+    test('status: 400 for invalid "p" value', () => {
+        return request(app).get('/api/reviews?p=banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 400 for invalid "limit" value', () => {
+        return request(app).get('/api/reviews?limit=banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
     // test.only('responds with status: 200 and response includes a total_count of all reviews', () => {
     //     return request(app).get('/api/reviews?p=1').expect(200)
     //         .then(({body}) => {
@@ -525,4 +537,31 @@ describe('GET /api/reviews using pagination', () => {
     //             });
     //         });
     // });
+});
+
+describe('GET /api/reviews/:review_id/comments using pagination', () => {
+    test('responds with status: 200 and a list of 2 results on page 1', () => {
+        return request(app).get('/api/reviews/2/comments?p=1&limit=2').expect(200)
+            .then(({body}) => {
+                expect(body.comments).toHaveLength(2);
+            });
+    });
+    test('responds with status: 200 and a list of 1 results on page 1', () => {
+        return request(app).get('/api/reviews/2/comments?p=2&limit=2').expect(200)
+            .then(({body}) => {
+                expect(body.comments).toHaveLength(1);
+            });
+    });
+    test('status: 400 for invalid "p" value', () => {
+        return request(app).get('/api/reviews/2/comments?p=banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 400 for invalid "limit" value', () => {
+        return request(app).get('/api/reviews?limit=banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
 });
