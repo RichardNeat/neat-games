@@ -478,14 +478,14 @@ describe('POST /api/reviews', () => {
     });
 });
 
-describe.only('GET /api/reviews using pagination', () => {
-    test('responds with status: 200 and a list of 10 results on page 1', () => {
-        return request(app).get('/api/reviews?p=1&limit=10').expect(200)
-            .then(({body}) => {
-                expect(body.reviews).toHaveLength(10);
-                body.reviews.forEach((review) => {
-                    expect(review.total_count).toBe("13");
-                });
-            });
-    });
-});
+// describe.only('GET /api/reviews using pagination', () => {
+//     test('responds with status: 200 and a list of 10 results on page 1', () => {
+//         return request(app).get('/api/reviews?p=1&limit=10').expect(200)
+//             .then(({body}) => {
+//                 expect(body.reviews).toHaveLength(10);
+//                 body.reviews.forEach((review) => {
+//                     expect(review.total_count).toBe("13");
+//                 });
+//             });
+//     });
+// });
