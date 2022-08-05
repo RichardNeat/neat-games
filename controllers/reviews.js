@@ -22,16 +22,16 @@ exports.addVote = (req, res, next) => {
 };
 
 exports.getReviews = (req, res, next) => {
-    const {sort_by, order, category} = req.query;
+    const {sort_by, order, category, limit, offset} = req.query;
     if(category) {
         Promise.all([
-            selectReviews(sort_by, order, category),
+            selectReviews(sort_by, order, category, limit, offset),
             checkExists("categories", "slug", category)
         ])
         .then(([reviews]) => {res.status(200).send({reviews})
         })
         .catch(next);
-    } else selectReviews(sort_by, order, category).then((reviews) => {
+    } else selectReviews(sort_by, order, category, limit, offset).then((reviews) => {
         res.status(200).send({reviews})
     })
     .catch(next);

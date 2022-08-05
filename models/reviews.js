@@ -27,11 +27,11 @@ exports.updateVote = (review_id, updatedReview) => {
         });
 };
 
-exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {  
+exports.selectReviews = (sort_by = "created_at", order = "DESC", category, limit = 10, offset = 0) => {  
 
     const validSortBys = ["title", "designer", "owner", "review_img_url", "review_body", "category", "created_at", "votes", "comment_count"];
 
-    if (!validSortBys.includes(sort_by) || !['ASC', 'DESC'].includes(order)) {
+    if (!validSortBys.includes(sort_by) || !['ASC', 'DESC'].includes(order) || !/[0-9]+/.test(limit) || !/[0-9]+/.test(offset)){
         return Promise.reject({
             status:(400),
             msg: "bad request"
@@ -46,8 +46,9 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category) => {
         injectArr.push(category);
     };
 
-    return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`, injectArr)
+    return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count, COUNT(reviews.*) AS total_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`, injectArr)
         .then((response) => {
+            console.log(response.rows)
             return response.rows;
         });
 };

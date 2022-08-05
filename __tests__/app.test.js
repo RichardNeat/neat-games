@@ -176,7 +176,7 @@ describe('GET /api/reviews', () => {
         return request(app).get('/api/reviews').expect(200)
             .then(({body}) => {
                 expect(Array.isArray(body.reviews)).toEqual(true);
-                expect(body.reviews.length).toBe(13);
+                expect(body.reviews.length).toBe(10);
                 expect(body.reviews).toBeSortedBy('created_at', {descending: true});
                 body.reviews.forEach(review => {
                     expect(review.title).toEqual(expect.any(String));
@@ -474,6 +474,18 @@ describe('POST /api/reviews', () => {
         return request(app).post('/api/reviews').send(input).expect(404)
             .then(({body}) => {
                 expect(body.msg).toBe("value not found");
+            });
+    });
+});
+
+describe.only('GET /api/reviews using pagination', () => {
+    test('responds with status: 200 and a list of 10 results on page 1', () => {
+        return request(app).get('/api/reviews?p=1&limit=10').expect(200)
+            .then(({body}) => {
+                expect(body.reviews).toHaveLength(10);
+                body.reviews.forEach((review) => {
+                    expect(review.total_count).toBe("13");
+                });
             });
     });
 });

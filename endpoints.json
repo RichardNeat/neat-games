@@ -116,7 +116,7 @@
       "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
     }
   },
-  "PATCH /api/comments/:commend_id": {
+  "PATCH /api/comments/:comment_id": {
     "description": "increments the votes value by the passed amount and sends back the updated comment",
     "queries": [],
     "exampleResponse": {

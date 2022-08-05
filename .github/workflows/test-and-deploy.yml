@@ -1,0 +1,12 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Greeting
+        run: echo hello there!
