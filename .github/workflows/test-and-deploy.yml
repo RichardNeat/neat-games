@@ -10,3 +10,13 @@ jobs:
     steps: 
       - name: Greeting
         run: echo hello there!
+
+  test-utils:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+      - name: Install dependencies
+        run: npm install
+      - name: Test Utils
+        run: npm run test-utils
