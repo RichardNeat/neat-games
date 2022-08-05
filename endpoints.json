@@ -152,5 +152,10 @@
         "slug": "deck builder",
         "description": "a card game where you start with a basic deck and increase its strength over time"
     }
+  },
+  "DELETE /api/reviews/:review_id": {
+    "description": "allows the user to remove a selected review from the database",
+    "queries": [],
+    "exampleResponse": {}
   }
 }

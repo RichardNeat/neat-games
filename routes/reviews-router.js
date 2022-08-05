@@ -5,6 +5,7 @@ const {
     getReviewById,
     addVote,
     postReview,
+    removeReview,
 } = require('../controllers/reviews');
 
 const {
@@ -18,7 +19,8 @@ reviewsRouter.route('/')
 
 reviewsRouter.route('/:review_id')
 .get(getReviewById)
-.patch(addVote);
+.patch(addVote)
+.delete(removeReview);
 
 reviewsRouter.route('/:review_id/comments')
 .get(getCommentsByReviewId)

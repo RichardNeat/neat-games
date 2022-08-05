@@ -539,22 +539,22 @@ describe('GET /api/reviews using pagination', () => {
                 expect(body.msg).toBe("bad request");
             });
     });
-    // test.only('responds with status: 200 and response includes a total_count of all reviews', () => {
-    //     return request(app).get('/api/reviews?p=1').expect(200)
-    //         .then(({body}) => {
-    //             body.reviews.forEach((review) => {
-    //                 expect(review.total_count).toBe(13);
-    //             });
-    //         });
-    // });
-    // test.only('responds with status: 200 and response includes a total_count of all reviews refined by category', () => {
-    //     return request(app).get('/api/reviews?p=1&category=social+deduction&limit=2&sort_by=review_id&order=ASC').expect(200)
-    //         .then(({body}) => {
-    //             body.reviews.forEach((review) => {
-    //                 expect(review.total_count).toBe(11);
-    //             });
-    //         });
-    // });
+    test('responds with status: 200 and response includes a total_count of all reviews', () => {
+        return request(app).get('/api/reviews?p=1').expect(200)
+            .then(({body}) => {
+                body.reviews.forEach((review) => {
+                    expect(review.total_count).toBe(13);
+                });
+            });
+    });
+    test('responds with status: 200 and response includes a total_count of all reviews refined by category', () => {
+        return request(app).get('/api/reviews?p=1&category=social+deduction&limit=2&sort_by=review_id&order=ASC').expect(200)
+            .then(({body}) => {
+                body.reviews.forEach((review) => {
+                    expect(review.total_count).toBe(11);
+                });
+            });
+    });
 });
 
 describe('GET /api/reviews/:review_id/comments using pagination', () => {
@@ -613,6 +613,30 @@ describe('POST /api/categories', () => {
         request(app).get('/api').expect(200)
             .then(({body}) => {
                     expect(body.apis["POST /api/categories"]).toEqual(expect.any(Object));
+            });
+    });
+});
+
+describe('DELETE /api/reviews/:review_id', () => {
+    test('responds with status: 204 and no body', () => {
+        return request(app).delete('/api/reviews/1').expect(204);
+    });
+    test('status: 400 for invalid review_id', () => {
+        return request(app).delete('/api/reviews/banana').expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+    test('status: 404 for valid but non existent review_id', () => {
+        return request(app).delete('/api/reviews/7777').expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("review_id not found");
+            });
+    });
+    test('new endpoint added to GET /api', () => {
+        request(app).get('/api').expect(200)
+            .then(({body}) => {
+                    expect(body.apis["DELETE /api/reviews/:review_id"]).toEqual(expect.any(Object));
             });
     });
 });

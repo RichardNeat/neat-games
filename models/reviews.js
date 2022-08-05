@@ -51,7 +51,7 @@ exports.selectReviews = (sort_by = "created_at", order = "DESC", category, limit
         injectArr.push(category);
     };
 
-    return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count, COUNT(reviews.*) AS total_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`, injectArr)
+    return db.query(`SELECT reviews.*, COUNT(comments.body) AS comment_count, SUM(reviews.review_id) AS total_count FROM reviews LEFT OUTER JOIN comments ON comments.review_id = reviews.review_id ${queryStr} GROUP BY reviews.review_id ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`, injectArr)
         .then((response) => {
             return response.rows;
         });
@@ -62,5 +62,17 @@ exports.insertReview = (newReview) => {
     return db.query('INSERT INTO reviews (owner, title, review_body, designer, category, votes, created_at) VALUES ($1, $2, $3, $4, $5, 0, $6) RETURNING *;', [owner, title, review_body, designer, category, new Date])
         .then((response) => {
             return response.rows[0];
+        });
+};
+
+exports.deleteReview = (id) => {
+    return db.query('DELETE FROM reviews WHERE review_id = $1;', [id])
+        .then((response) => {
+            if (response.rowCount === 0) {
+                return Promise.reject({
+                    status: 404,
+                    msg: "review_id not found"
+                })
+            }
         });
 };
