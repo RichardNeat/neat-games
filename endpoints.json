@@ -19,7 +19,8 @@
     "queries": ["category", "sort_by", "order", "limit", "p"],
     "exampleResponse": {
       "reviews": [
-        {
+        { 
+          "review_id": 1,
           "title": "One Night Ultimate Werewolf",
           "designer": "Akihisa Okui",
           "owner": "happyamy2016",
@@ -36,6 +37,7 @@
     "queries": [],
     "exampleResponse": {
       "review": {
+        "review_id": 2,
         "title" : "Scythe; you're gonna need a bigger table!",
         "designer": "Jamey Stegmaier",
         "owner": "mallionaire",
