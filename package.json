@@ -25,11 +25,12 @@
   },
   "homepage": "https://github.com/northcoders/be-nc-games#readme",
   "dependencies": {
+    "body-parser": "*",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "pg": "^8.7.3",
-    "pg-format": "^1.0.4",
-    "body-parser":"*"
+    "pg-format": "^1.0.4"
   },
   "devDependencies": {
     "husky": "^7.0.0",
