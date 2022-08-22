@@ -54,9 +54,9 @@ describe('GET /api/categories', () => {
 
 describe('GET /api/reviews/:review_id', () => {
     test('responds with status: 200 and an object containing the correct keys and content', () => {
-        return request(app).get('/api/reviews/2').expect(200)
+        return request(app).get('/api/reviews/1').expect(200)
             .then(({body}) => {
-                expect(body.review.review_id).toBe(2);
+                expect(body.review.review_id).toBe(1);
                 expect(body.review.title).toEqual(expect.any(String));
                 expect(body.review.designer).toEqual(expect.any(String));
                 expect(body.review.owner).toEqual(expect.any(String));
