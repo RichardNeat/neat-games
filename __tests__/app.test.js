@@ -238,11 +238,12 @@ describe('GET /api/reviews', () => {
 });
 
 describe('GET /api/reviews/:review_id/comments', () => {
-    test('responds with status: 200 and an array of comments for the given review_id with the correct keys', () => {
+    test('responds with status: 200 and an array of comments for the given review_id with the correct keys and in descending order by created_at', () => {
         return request(app).get('/api/reviews/2/comments').expect(200)
             .then(({body}) => {
                 expect(Array.isArray(body.comments)).toBe(true);
                 expect(body.comments).toHaveLength(3);
+                expect(body.comments).toBeSortedBy('created_at', {descending: true});
                 body.comments.forEach(comment => {
                     expect(comment.comment_id).toEqual(expect.any(Number));
                     expect(comment.votes).toEqual(expect.any(Number));

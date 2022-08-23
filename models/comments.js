@@ -1,19 +1,19 @@
 const db = require('../db/connection');
 
-exports.selectCommentsByReviewId = (review_id, limit = 10, p = 1) => {
+exports.selectCommentsByReviewId = (review_id, limit = 10, p = 1, sort_by = 'created_at', order = 'DESC') => {
 
     let offset = 0;
     if (p > 1) {
         offset = (limit * p) - limit
     };
-    if (!/[0-9]+/.test(limit) || !/[0-9]+/.test(offset) || !/[0-9]+/.test(p)){
+    if (!/[0-9]+/.test(limit) || !/[0-9]+/.test(offset) || !/[0-9]+/.test(p) || !['created_at'].includes(sort_by) || !['DESC'].includes(order)){
         return Promise.reject({
             status:(400),
             msg: "bad request"
         });
     };
 
-    return db.query(`SELECT * FROM comments WHERE review_id = $1 LIMIT ${limit} OFFSET ${offset};`, [review_id])
+    return db.query(`SELECT * FROM comments WHERE review_id = $1  ORDER BY ${sort_by} ${order} LIMIT ${limit} OFFSET ${offset};`, [review_id])
         .then((response) => {
             return response.rows;
         });

@@ -9,7 +9,6 @@ exports.selectReviewById = (review_id) => {
                     msg: "not found"
                 });
             };
-            console.log(response.rows[0])
             return response.rows[0];
         });
 };
