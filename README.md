@@ -22,6 +22,13 @@ If you would like to run the tests contained in the test folder you will also ne
 
 "husky" is optional and is only relevant if you are wishing to run your tests before committing to gitHub, each time you attempt a commit.
 
+## Seed Database
+
+There are premade scripts specified in the package.json file for this, simply run these two commands:
+
+npm run setup-dbs
+npm run seed
+
 ## .env
 
 Along with the node_modules the .env files have also been ignored and therefore if you clone this repo you will need to set these up yourself.
