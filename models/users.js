@@ -26,3 +26,16 @@ exports.insertUser = ({username, name, avatar_url}) => {
             return response.rows[0];
         });
 };
+
+exports.deleteUser = (username) => {
+    return db.query('DELETE FROM users WHERE username = $1 RETURNING *', [username])
+        .then((response) => {
+            if (response.rowCount === 0) {
+                return Promise.reject({
+                    status: 404,
+                    msg: "not found"
+                });
+            }
+            console.log(response.rows);
+        });
+};

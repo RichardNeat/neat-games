@@ -2,6 +2,7 @@ const {
     selectUsers,
     selectUserByUsername,
     insertUser,
+    deleteUser,
 } = require('../models/users');
 
 exports.getUsers = (req, res, next) => {
@@ -21,5 +22,12 @@ exports.getUserByUsername = (req, res, next) => {
 exports.postUser = (req, res, next) => {
     insertUser(req.body). then((user) => {
         res.status(201).send({user});
+    }).catch(next);
+};
+
+exports.removeUser = (req, res, next) => {
+    const username = req.params.username;
+    deleteUser(username).then(() => {
+        res.status(204).send();
     }).catch(next);
 };

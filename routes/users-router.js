@@ -4,6 +4,7 @@ const {
     getUsers,
     getUserByUsername,
     postUser,
+    removeUser,
 } = require('../controllers/users');
 
 userRouter.route('/')
@@ -11,6 +12,7 @@ userRouter.route('/')
 .post(postUser);
 
 userRouter.route('/:username')
-.get(getUserByUsername);
+.get(getUserByUsername)
+.delete(removeUser);
 
 module.exports = userRouter;

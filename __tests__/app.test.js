@@ -671,3 +671,18 @@ describe('POST /api/users', () => {
             });
     });
 });
+
+describe('DELETE /api/users/:username', () => {
+    test('responds with status: 204 removing the correct comment and returns no content', () => {
+        return request(app).delete('/api/users/mallionaire').expect(204)
+            .then(({body}) => {
+                expect(body).toEqual({});
+            });
+    });
+    test('status 404 for valid but non existent username', () => {
+        return request(app).delete('/api/users/banana').expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe("not found");
+            });
+    });
+})
