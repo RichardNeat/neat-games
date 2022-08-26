@@ -641,3 +641,33 @@ describe('DELETE /api/reviews/:review_id', () => {
             });
     });
 });
+
+describe('POST /api/users', () => {
+    const input = {
+        username: "gandolfini",
+        name: "Richard",
+        avatar_url: 'https://test-url.com'
+    };
+    const expected = {
+            username: "gandolfini",
+            name: "Richard",
+            avatar_url: 'https://test-url.com'
+    }
+    test('responds with status 201 and returns the new user', () => {
+        return request(app).post("/api/users").send(input).expect(201)
+            .then(({body}) => {
+                expect(body.user).toEqual(expected);
+            });
+    });
+    test('status 400 for invalid keys', () => {
+        const input = {
+            usernam: "gandolfini",
+            name: "Richard",
+            avatar_url: 'https://test-url.com'
+        };
+        return request(app).post("/api/users").send(input).expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe("bad request");
+            });
+    });
+});
