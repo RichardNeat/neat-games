@@ -1,6 +1,6 @@
 ## Hosted Version Link
 
-https://neat-games.herokuapp.com/api
+https://neat-games.onrender.com
 
 ## Project Summary
 
