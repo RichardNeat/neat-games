@@ -36,6 +36,6 @@ exports.deleteUser = (username) => {
                     msg: "not found"
                 });
             }
-            console.log(response.rows);
+            // console.log(response.rows);
         });
 };

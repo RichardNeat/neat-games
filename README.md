@@ -12,7 +12,7 @@ If you wish to 'clone' this repo from Github you will need to install dependenci
 
 ## Install Dependencies
 
-By default, 'npm install' will install all modules listed as dependencies in package.json. In this case this will install: 
+By default, 'npm install' will install all modules listed as dependencies in package.json. In this case this will install:
 
 "dotenv": "^16.0.0", "express": "^4.18.1", "pg": "^8.7.3" and "pg-format": "^1.0.4".
 
