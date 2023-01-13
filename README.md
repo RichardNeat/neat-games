@@ -1,6 +1,6 @@
 ## Hosted Version Link
 
-https://neat-games.onrender.com
+https://neat-games.onrender.com/api
 
 ## Project Summary
 
